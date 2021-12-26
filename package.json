@@ -37,11 +37,11 @@
   "size-limit": [
     {
       "path": "dist/yolov5-js.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "500 KB"
     },
     {
       "path": "dist/yolov5-js.esm.js",
-      "limit": "10 KB"
+      "limit": "500 KB"
     }
   ],
   "devDependencies": {

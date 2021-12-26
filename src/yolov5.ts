@@ -93,12 +93,12 @@ export class YOLOv5 {
             for (let j = 0; j < 4; j++) {
                 bbox[j] = boxes[i * 4 + j];
             }
-            const minX = bbox[0] * inputHeight;
-            const minY = bbox[1] * inputWidth;
-            const maxX = bbox[2] * inputHeight;
-            const maxY = bbox[3] * inputWidth;
-            const width = maxY - minY;
-            const height = maxX - minX;
+            const minX = bbox[0] * inputWidth;
+            const minY = bbox[1] * inputHeight;
+            const maxX = bbox[2] * inputWidth;
+            const maxY = bbox[3] * inputHeight;
+            const width = maxX - minX;
+            const height = maxY - minY;
             const className = classNames[classes[i]];
             detections.push({
                 x: minX,
