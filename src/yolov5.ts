@@ -10,9 +10,9 @@ const COCO_NAMES = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
     'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch',
     'potted plant', 'bed', 'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone',
     'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear',
-    'hair drier', 'toothbrush']
+    'hair drier', 'toothbrush'];
 
-const INPUT_RESOLUTION: [number, number] = [640, 640]
+const INFERENCE_RESOLUTION: [number, number] = [640, 640];
 
 export declare type ObjectDetectionBaseModel = 'yolov5n' | 'yolov5s' | 'yolov5m';
 
@@ -50,47 +50,86 @@ export interface DetectedObject {
 }
 
 export class YOLOv5 {
-    public model: GraphModel
-    public inputResolution: [number, number]
-    public classNames: string[]
+    public model: GraphModel;
+    public inferenceResolution: [number, number];
+    public classNames: string[];
 
-    constructor(model: GraphModel, inputResolution: [number, number], classNames: string[]) {
-        this.model = model
-        this.inputResolution = inputResolution
-        this.classNames = classNames
+    constructor(model: GraphModel, inferenceResolution: [number, number], classNames: string[]) {
+        this.model = model;
+        this.inferenceResolution = inferenceResolution;
+        this.classNames = classNames;
     }
 
-    // public static image2tensor
+    public static preprocessImage(
+        image: HTMLImageElement,
+        inferenceResolution: [number, number]
+    ): [tf.Tensor4D, [number, number]] {
+        const inputTensor = tf.browser.fromPixels(image);
+        const inputResolution: [number, number] = [image.height, image.width];
+        const preprocessedTensor: tf.Tensor4D = tf.image
+            .resizeBilinear(inputTensor, inferenceResolution)
+            .div(255.0)
+            .expandDims(0);
+        return [preprocessedTensor, inputResolution];
+    }
 
-    // @ts-ignore
+    public static postprocessResults(
+        boxes: Float32Array,
+        scores: Float32Array,
+        classes: Float32Array,
+        inputResolution: [number, number],
+        classNames: string[],
+        minScore?: number
+    ): DetectedObject[] {
+        const scoreThreshold: number = minScore !== undefined ? minScore : 0;
+        const [inputHeight, inputWidth] = inputResolution;
+        const detections: DetectedObject[] = [];
+        for (let i = 0; i < scores.length; i++) {
+            const score = scores[i];
+            if (score < scoreThreshold) {
+                continue;
+            }
+            const bbox = [];
+            for (let j = 0; j < 4; j++) {
+                bbox[j] = boxes[i * 4 + j];
+            }
+            const minX = bbox[0] * inputHeight;
+            const minY = bbox[1] * inputWidth;
+            const maxX = bbox[2] * inputHeight;
+            const maxY = bbox[3] * inputWidth;
+            const width = maxY - minY;
+            const height = maxX - minX;
+            const className = classNames[classes[i]];
+            detections.push({
+                x: minX,
+                y: minY,
+                width: width,
+                height: height,
+                class: className,
+                score: score
+            });
+        }
+        return detections;
+    }
+
     public async detect(image: HTMLImageElement, minScore?: number): Promise<DetectedObject[]> {
-        const input = tf.tidy(() => {
-            const imageTensor = tf.browser.fromPixels(image);
-            return  tf.image
-                .resizeBilinear(imageTensor, this.inputResolution)
-                .div(255.0)
-                .expandDims(0);
+        const [preprocessedTensor, inputResolution] = tf.tidy(() => {
+            return YOLOv5.preprocessImage(image, this.inferenceResolution);
         });
-        const result = await this.model.executeAsync(input) as tf.Tensor[];
+        const result = await this.model.executeAsync(preprocessedTensor) as tf.Tensor[];
         const boxes = result[0].dataSync() as Float32Array;
         const scores = result[1].dataSync() as Float32Array;
         const classes = result[2].dataSync() as Float32Array;
 
-        input.dispose();
+        preprocessedTensor.dispose();
         tf.dispose(result);
 
-        const detections: DetectedObject[] = [];
-
-        console.log(boxes)
-        console.log(scores)
-        console.log(classes)
-
-        return detections
+        return YOLOv5.postprocessResults(boxes, scores, classes, inputResolution, this.classNames, minScore);
     }
 }
 
-export async function load(config: ModelConfig, inputResolution: [number, number] = INPUT_RESOLUTION): Promise<YOLOv5> {
+export async function load(config: ModelConfig, inputResolution: [number, number] = INFERENCE_RESOLUTION): Promise<YOLOv5> {
     return tf.loadGraphModel(config.modelUrl).then((model: GraphModel) => {
-        return new YOLOv5(model, inputResolution, config.classNames)
+        return new YOLOv5(model, inputResolution, config.classNames);
     });
 }
