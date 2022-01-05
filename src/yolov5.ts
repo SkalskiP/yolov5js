@@ -1,6 +1,5 @@
-import {GraphModel} from '@tensorflow/tfjs-converter/dist/executor/graph_model';
-
 import * as tf from '@tensorflow/tfjs'
+import {GraphModel} from "@tensorflow/tfjs-converter/dist/executor/graph_model";
 
 const COCO_NAMES = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
     'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
