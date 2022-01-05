@@ -1,6 +1,6 @@
-![npm](https://img.shields.io/npm/dt/yolov5-js)
-![NPM](https://img.shields.io/npm/l/yolov5-js)
-![npm](https://img.shields.io/npm/v/yolov5-js)
+![npm](https://img.shields.io/npm/dt/yolov5js)
+![NPM](https://img.shields.io/npm/l/yolov5js)
+![npm](https://img.shields.io/npm/v/yolov5js)
 
 <h1 align="center">yolov5js</h1>
 

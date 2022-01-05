@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -31,16 +31,16 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "yolov5-js",
+  "name": "yolov5js",
   "author": "SkalskiP",
-  "module": "dist/yolov5-js.esm.js",
+  "module": "dist/yolov5js.esm.js",
   "size-limit": [
     {
-      "path": "dist/yolov5-js.cjs.production.min.js",
+      "path": "dist/yolov5js.cjs.production.min.js",
       "limit": "500 KB"
     },
     {
-      "path": "dist/yolov5-js.esm.js",
+      "path": "dist/yolov5js.esm.js",
       "limit": "500 KB"
     }
   ],
