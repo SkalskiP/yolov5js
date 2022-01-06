@@ -60,7 +60,7 @@ export class YOLOv5 {
     }
 
     public static preprocessImage(
-        image: HTMLImageElement,
+        image: HTMLImageElement | HTMLCanvasElement,
         inferenceResolution: [number, number]
     ): [tf.Tensor4D, [number, number]] {
         const inputTensor = tf.browser.fromPixels(image);
@@ -111,7 +111,7 @@ export class YOLOv5 {
         return detections;
     }
 
-    public async detect(image: HTMLImageElement, minScore?: number): Promise<DetectedObject[]> {
+    public async detect(image: HTMLImageElement | HTMLCanvasElement, minScore?: number): Promise<DetectedObject[]> {
         const [preprocessedTensor, inputResolution] = tf.tidy(() => {
             return YOLOv5.preprocessImage(image, this.inferenceResolution);
         });
