@@ -25,9 +25,9 @@ extra:
 
 # Page tree
 nav:
-  - Home: index.md
-  - API: api.md
-  - Weights: weights.md
+  - Overview: index.md
+  - Docs: api.md
+  - Custom weights: weights.md
 
 # Configuration
 theme:
