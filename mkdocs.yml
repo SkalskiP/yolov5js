@@ -26,6 +26,8 @@ extra:
 # Page tree
 nav:
   - Home: index.md
+  - API: api.md
+  - Weights: weights.md
 
 # Configuration
 theme:
@@ -36,8 +38,8 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
-  logo: 'https://yolov5js-images.s3.eu-central-1.amazonaws.com/yolov5js-logo-black.png'
-  favicon: 'https://yolov5js-images.s3.eu-central-1.amazonaws.com/yolov5js-logo-black.png'
+  logo: 'https://yolov5js-images.s3.eu-central-1.amazonaws.com/yolov5js-logo.png'
+  favicon: 'https://yolov5js-images.s3.eu-central-1.amazonaws.com/yolov5js-logo.png'
   features:
     - navigation.expand
   icon:

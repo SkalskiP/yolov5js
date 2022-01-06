@@ -8,40 +8,14 @@
     <img width="200" src="https://yolov5js-images.s3.eu-central-1.amazonaws.com/yolov5js-logo.png" alt="Logo">
 </p>
 
-## ⚙️ Installation
-
-🚧 Construction, watch your head!
-
-
-## 📄 Documentation
-
-🚧 Construction, watch your head!
-
-
-## 🚀 Examples
-
-🚧 Construction, watch your head!
-
-
-## 🏋️ Custom weights
-
+## <div align="center">Installation</div>
 
 ```console
-git clone https://github.com/ultralytics/yolov5.git
-cd yolov5
-virtualenv venv
-source venv/bin/activate
-pip install -r requirements.txt
-pip install tensorflowjs
-python export.py --weights yolov5s.pt --include tfjs
+npm install --save yolov5js
 ```
 
+## <div align="center">Documentation</div>
 
-## 🏆 Contributing
+## <div align="center">Examples</div>
 
-🚧 Construction, watch your head!
-
-
-## 🪧 License
-
-🚧 Construction, watch your head!
+## <div align="center">Contribute</div>
