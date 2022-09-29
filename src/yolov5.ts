@@ -13,29 +13,23 @@ const COCO_NAMES = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
 
 const INFERENCE_RESOLUTION: [number, number] = [640, 640];
 
-export declare type ObjectDetectionBaseModel = 'yolov5n' | 'yolov5s' | 'yolov5m';
-
 export interface ModelConfig {
-    base: ObjectDetectionBaseModel;
-    modelUrl: string;
-    classNames: string[];
+    source: string | File[];
+    classNames?: string[];
 }
 
 export const YOLO_V5_N_COCO_MODEL_CONFIG: ModelConfig = {
-    base: 'yolov5n',
-    modelUrl: 'https://raw.githubusercontent.com/SkalskiP/ILearnMachineLearning.js/master/models/yolov5n/model.json',
+    source: 'https://raw.githubusercontent.com/SkalskiP/ILearnMachineLearning.js/master/models/yolov5n/model.json',
     classNames: COCO_NAMES
 }
 
 export const YOLO_V5_S_COCO_MODEL_CONFIG: ModelConfig = {
-    base: 'yolov5s',
-    modelUrl: 'https://raw.githubusercontent.com/SkalskiP/ILearnMachineLearning.js/master/models/yolov5s/model.json',
+    source: 'https://raw.githubusercontent.com/SkalskiP/ILearnMachineLearning.js/master/models/yolov5s/model.json',
     classNames: COCO_NAMES
 }
 
 export const YOLO_V5_M_COCO_MODEL_CONFIG: ModelConfig = {
-    base: 'yolov5m',
-    modelUrl: 'https://raw.githubusercontent.com/SkalskiP/ILearnMachineLearning.js/master/models/yolov5m/model.json',
+    source: 'https://raw.githubusercontent.com/SkalskiP/ILearnMachineLearning.js/master/models/yolov5m/model.json',
     classNames: COCO_NAMES
 }
 
@@ -45,15 +39,16 @@ export interface DetectedObject {
     width: number;
     height: number;
     score: number;
-    class: string;
+    classId: number;
+    class?: string;
 }
 
 export class YOLOv5 {
     public model: GraphModel;
     public inferenceResolution: [number, number];
-    public classNames: string[];
+    public classNames?: string[];
 
-    constructor(model: GraphModel, inferenceResolution: [number, number], classNames: string[]) {
+    constructor(model: GraphModel, inferenceResolution: [number, number], classNames?: string[]) {
         this.model = model;
         this.inferenceResolution = inferenceResolution;
         this.classNames = classNames;
@@ -77,7 +72,7 @@ export class YOLOv5 {
         scores: Float32Array,
         classes: Float32Array,
         inputResolution: [number, number],
-        classNames: string[],
+        classNames?: string[],
         minScore?: number
     ): DetectedObject[] {
         const scoreThreshold: number = minScore !== undefined ? minScore : 0;
@@ -98,14 +93,16 @@ export class YOLOv5 {
             const maxY = bbox[3] * inputHeight;
             const width = maxX - minX;
             const height = maxY - minY;
-            const className = classNames[classes[i]];
+            const classId = classes[i];
+            const className = classNames !== undefined ? classNames[classes[i]] : undefined;
             detections.push({
                 x: minX,
                 y: minY,
                 width: width,
                 height: height,
+                score: score,
+                classId: classId,
                 class: className,
-                score: score
             });
         }
         return detections;
@@ -128,7 +125,13 @@ export class YOLOv5 {
 }
 
 export async function load(config: ModelConfig, inputResolution: [number, number] = INFERENCE_RESOLUTION): Promise<YOLOv5> {
-    return tf.loadGraphModel(config.modelUrl).then((model: GraphModel) => {
-        return new YOLOv5(model, inputResolution, config.classNames);
-    });
+    if (typeof config.source === 'string') {
+        return tf.loadGraphModel(config.source).then((model: GraphModel) => {
+            return new YOLOv5(model, inputResolution, config.classNames);
+        });
+    } else {
+        return tf.loadGraphModel(tf.io.browserFiles(config.source)).then((model: GraphModel) => {
+            return new YOLOv5(model, inputResolution, config.classNames);
+        });
+    }
 }
