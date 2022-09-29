@@ -19,17 +19,17 @@ export interface ModelConfig {
 }
 
 export const YOLO_V5_N_COCO_MODEL_CONFIG: ModelConfig = {
-    source: 'https://raw.githubusercontent.com/SkalskiP/ILearnMachineLearning.js/master/models/yolov5n/model.json',
+    source: 'https://raw.githubusercontent.com/SkalskiP/yolov5js-zoo/master/models/coco/yolov5n/model.json',
     classNames: COCO_NAMES
 }
 
 export const YOLO_V5_S_COCO_MODEL_CONFIG: ModelConfig = {
-    source: 'https://raw.githubusercontent.com/SkalskiP/ILearnMachineLearning.js/master/models/yolov5s/model.json',
+    source: 'https://raw.githubusercontent.com/SkalskiP/yolov5js-zoo/master/models/coco/yolov5s/model.json',
     classNames: COCO_NAMES
 }
 
 export const YOLO_V5_M_COCO_MODEL_CONFIG: ModelConfig = {
-    source: 'https://raw.githubusercontent.com/SkalskiP/ILearnMachineLearning.js/master/models/yolov5m/model.json',
+    source: 'https://raw.githubusercontent.com/SkalskiP/yolov5js-zoo/master/models/coco/yolov5m/model.json',
     classNames: COCO_NAMES
 }
 

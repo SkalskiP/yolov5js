@@ -26,8 +26,7 @@ extra:
 # Page tree
 nav:
   - Overview: index.md
-  - Docs: api.md
-  - Custom weights: weights.md
+  - Convert: weights.md
 
 # Configuration
 theme:
