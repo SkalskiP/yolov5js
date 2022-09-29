@@ -1,5 +1,6 @@
 export {
     DetectedObject,
+    ModelConfig,
     YOLOv5,
     load,
     YOLO_V5_N_COCO_MODEL_CONFIG,

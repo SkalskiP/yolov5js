@@ -8,16 +8,39 @@
     <img width="200" src="https://yolov5js-images.s3.eu-central-1.amazonaws.com/yolov5js-logo.png" alt="Logo">
 </p>
 
-## <div align="center">Installation</div>
+## <div align="center">Install</div>
 
-```console
+```bash
 npm install --save yolov5js
 ```
 
-## <div align="center">Deployment</div>
+## <div align="center">Convert</div>
+
+```bash
+# clone YOLOv5 repository
+git clone https://github.com/ultralytics/yolov5.git
+cd yolov5
+
+# create python virtual environment [recommended]
+virtualenv venv
+source venv/bin/activate
+
+# install dependencies
+pip install -r requirements.txt
+pip install tensorflowjs
+
+# convert model to tensorflow.js format
+python export.py --weights yolov5s.pt --include tfjs
+```
+
+## <div align="center">Zoo</div>
+
+Use and share pretrained YOLOv5 tensorflow.js models with [yolov5.js-zoo](https://github.com/SkalskiP/yolov5js-zoo).
+
+## <div align="center">Deploy</div>
 
 <details open>
-<summary>Fetch from models library</summary>
+<summary>Fetch from models zoo</summary>
 
 ```javascript
 import {load, YOLO_V5_N_COCO_MODEL_CONFIG} from 'yolov5js'
@@ -33,7 +56,7 @@ const model = await load(YOLO_V5_N_COCO_MODEL_CONFIG)
 ```javascript
 import {load, ModelConfig} from 'yolov5js'
 
-const config = { source: 'https://raw.githubusercontent.com/SkalskiP/yolov5js/master/models/yolov5n/model.json' }
+const config = { source: 'https://raw.githubusercontent.com/SkalskiP/yolov5js-zoo/master/models/coco/yolov5n/model.json' }
 const model = await load(config)
 ```
 
@@ -53,6 +76,11 @@ const model = await load(config)
 ```
 
 </details>
+
+## <div align="center">Kudos</div>
+
+Kudos to [ultralytics](https://ultralytics.com/) team as well as all other open-source contributors for building [YOLOv5](https://github.com/ultralytics/yolov5) project, and making it all possible.
+
 
 ## <div align="center">License</div>
 
