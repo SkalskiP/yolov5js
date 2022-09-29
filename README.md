@@ -14,8 +14,46 @@
 npm install --save yolov5js
 ```
 
-## <div align="center">Documentation</div>
+## <div align="center">Deployment</div>
 
-## <div align="center">Examples</div>
+<details open>
+<summary>Fetch from models library</summary>
 
-## <div align="center">Contribute</div>
+```javascript
+import {load, YOLO_V5_N_COCO_MODEL_CONFIG} from 'yolov5js'
+
+const model = await load(YOLO_V5_N_COCO_MODEL_CONFIG)
+```
+
+</details>
+
+<details open>
+<summary>Fetch from custom url</summary>
+
+```javascript
+import {load, ModelConfig} from 'yolov5js'
+
+const config = { source: 'https://raw.githubusercontent.com/SkalskiP/yolov5js/master/models/yolov5n/model.json' }
+const model = await load(config)
+```
+
+</details>
+
+<details open>
+<summary>Load from file</summary>
+
+```javascript
+import {load, ModelConfig} from 'yolov5js'
+    
+const uploadJSONInput = document.getElementById('upload-json');
+const uploadWeightsInput = document.getElementById('upload-weights');
+    
+const config = { source: [uploadJSONInput.files[0], uploadWeightsInput.files[0]] }
+const model = await load(config)
+```
+
+</details>
+
+## <div align="center">License</div>
+
+Project is freely distributable under the terms of the [MIT license](LICENSE).
