@@ -2,6 +2,9 @@
 ![NPM](https://img.shields.io/npm/l/yolov5js)
 ![npm](https://img.shields.io/npm/v/yolov5js)
 
+[![CodeSandbox](https://img.shields.io/badge/Codesandbox-040404?style=for-the-badge&logo=codesandbox&logoColor=DBDBDB)](https://codesandbox.io/s/github/SkalskiP/yolov5js-example)
+
+
 <h1 align="center">yolov5.js</h1>
 
 <p align="center"> 
@@ -13,6 +16,12 @@
 ```bash
 npm install --save yolov5js
 ```
+
+## <div align="center">Example</div>
+
+Want to use **yolov5js** in your project but don't know how? Take a peek at our sample React 
+[app](https://github.com/SkalskiP/yolov5js-example) or run it in 
+[codesandbox](https://codesandbox.io/s/github/SkalskiP/yolov5js-example).
 
 ## <div align="center">Convert</div>
 
@@ -37,10 +46,13 @@ python export.py --weights yolov5s.pt --include tfjs
 
 Use and share pretrained YOLOv5 tensorflow.js models with [yolov5.js-zoo](https://github.com/SkalskiP/yolov5js-zoo).
 
-## <div align="center">Deploy</div>
+## <div align="center">Documentation</div>
+
+Our proper [documentation](skalskip.github.io/yolov5js) are still under construction 🚧. We are working on it really 
+hard.
 
 <details open>
-<summary>Fetch from models zoo</summary>
+<summary>Load pre-trained model from zoo</summary>
 
 ```javascript
 import {load, YOLO_V5_N_COCO_MODEL_CONFIG} from 'yolov5js'
@@ -51,19 +63,7 @@ const model = await load(YOLO_V5_N_COCO_MODEL_CONFIG)
 </details>
 
 <details open>
-<summary>Fetch from custom url</summary>
-
-```javascript
-import {load, ModelConfig} from 'yolov5js'
-
-const config = { source: 'https://raw.githubusercontent.com/SkalskiP/yolov5js-zoo/master/models/coco/yolov5n/model.json' }
-const model = await load(config)
-```
-
-</details>
-
-<details open>
-<summary>Load from file</summary>
+<summary>Load custom model from file</summary>
 
 ```javascript
 import {load, ModelConfig} from 'yolov5js'
